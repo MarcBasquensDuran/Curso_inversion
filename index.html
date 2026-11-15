@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curso de inversión y macro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: una columna de lectura (~65ch) con cabecera fija; cada lección se lee en capas: esencial abierto, entenderlo y a fondo plegados. */
+:root {
+  --papel: #f3f5f4;
+  --superficie: #ffffff;
+  --tinta: #16232b;
+  --tinta-suave: #4d5d66;
+  --linea: #d6dedc;
+  --acento: #0f5c6e;
+  --acento-suave: #e1eef0;
+  --verde: #2f7d4f;
+  --verde-fondo: #e7f3ec;
+  --ambar: #a86a00;
+  --ambar-fondo: #fbf1de;
+  --rojo: #b23a3a;
+  --rojo-fondo: #f8e6e4;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Literata", Georgia, "Times New Roman", serif;
+  --radio: 10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #0f1619;
+    --superficie: #172126;
+    --tinta: #e4ecee;
+    --tinta-suave: #9fb1b7;
+    --linea: #2b3a40;
+    --acento: #6cc3d5;
+    --acento-suave: #1b3239;
+    --verde: #6fcf97;
+    --verde-fondo: #17301f;
+    --ambar: #f0b44c;
+    --ambar-fondo: #33270f;
+    --rojo: #f08a80;
+    --rojo-fondo: #3a1c1a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #0f1619;
+  --superficie: #172126;
+  --tinta: #e4ecee;
+  --tinta-suave: #9fb1b7;
+  --linea: #2b3a40;
+  --acento: #6cc3d5;
+  --acento-suave: #1b3239;
+  --verde: #6fcf97;
+  --verde-fondo: #17301f;
+  --ambar: #f0b44c;
+  --ambar-fondo: #33270f;
+  --rojo: #f08a80;
+  --rojo-fondo: #3a1c1a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+a { color: var(--acento); }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, label:focus-within {
+  outline: 3px solid var(--acento); outline-offset: 2px; border-radius: 4px;
+}
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: 1.85rem; font-weight: 700; }
+h2 { font-size: 1.35rem; font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+h4 { font-size: 1rem; font-weight: 700; }
+
+.cabecera {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--papel);
+  border-bottom: 1px solid var(--linea);
+}
+.cabecera-in {
+  max-width: 760px; margin: 0 auto; padding: 10px 16px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.marca { font-family: var(--font-display); font-weight: 700; text-decoration: none; color: var(--tinta); font-size: 1.05rem; }
+.cab-nav { display: flex; gap: 6px; margin-left: auto; align-items: center; flex-wrap: wrap; }
+.boton, .cab-nav a {
+  font-family: var(--font-display); font-size: .9rem; font-weight: 500;
+  border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta);
+  padding: 6px 12px; border-radius: 999px; text-decoration: none; cursor: pointer;
+}
+.boton.primario { background: var(--acento); color: var(--superficie); border-color: var(--acento); }
+.interruptor { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-display); font-size: .9rem; cursor: pointer; }
+.interruptor input { width: 18px; height: 18px; accent-color: var(--acento); }
+
+main { max-width: 760px; margin: 0 auto; padding: 20px 16px 64px; display: grid; gap: 22px; }
+.lectura { max-width: 65ch; }
+.migas { font-family: var(--font-display); font-size: .88rem; color: var(--tinta-suave); display: flex; gap: 6px; flex-wrap: wrap; }
+.migas a { color: var(--tinta-suave); }
+.sub { color: var(--tinta-suave); margin: 6px 0 0; }
+
+.panel { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); padding: 16px 18px; display: grid; gap: 10px; }
+.panel > :first-child { margin-top: 0; }
+.leyenda { display: grid; gap: 8px; }
+.leyenda div { display: flex; gap: 10px; align-items: baseline; }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-display); font-size: .8rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+.chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.chip.verde { color: var(--verde); background: var(--verde-fondo); }
+.chip.ambar { color: var(--ambar); background: var(--ambar-fondo); }
+.chip.rojo { color: var(--rojo); background: var(--rojo-fondo); }
+.chip.neutro { color: var(--tinta-suave); background: var(--acento-suave); }
+.chip.neutro::before { display: none; }
+
+.progreso { height: 8px; background: var(--acento-suave); border-radius: 999px; overflow: hidden; }
+.progreso span { display: block; height: 100%; background: var(--acento); border-radius: 999px; }
+
+.lista-bloques, .lista-lecciones { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.tarjeta {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: start;
+  background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio);
+  padding: 14px 16px; text-decoration: none; color: var(--tinta);
+}
+a.tarjeta:hover { border-color: var(--acento); }
+.tarjeta.bloqueada { opacity: .62; }
+.num { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--acento); font-variant-numeric: tabular-nums; }
+.tarjeta p { margin: 4px 0 0; color: var(--tinta-suave); font-size: .95rem; }
+.estado { font-family: var(--font-display); font-size: .8rem; color: var(--tinta-suave); white-space: nowrap; }
+.estado.hecho { color: var(--verde); font-weight: 700; }
+
+.foto table { width: 100%; }
+.dato-fecha { font-family: var(--font-display); font-size: .82rem; color: var(--tinta-suave); }
+
+.resumen { border-left: 4px solid var(--acento); background: var(--acento-suave); padding: 12px 16px; border-radius: 0 var(--radio) var(--radio) 0; }
+.resumen h2 { font-size: .95rem; text-transform: uppercase; letter-spacing: .04em; color: var(--acento); margin-bottom: 4px; }
+.resumen p { margin: 0; }
+
+.nivel { background: var(--superficie); border: 1px solid var(--linea); border-left-width: 5px; border-radius: var(--radio); }
+.nivel.verde { border-left-color: var(--verde); }
+.nivel.ambar { border-left-color: var(--ambar); }
+.nivel.rojo { border-left-color: var(--rojo); }
+.nivel > summary, .nivel > .nivel-cab {
+  list-style: none; cursor: pointer; padding: 12px 16px;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  font-family: var(--font-display); font-weight: 700;
+}
+.nivel > .nivel-cab { cursor: default; }
+.nivel > summary::-webkit-details-marker { display: none; }
+.nivel > summary::after { content: "Abrir"; margin-left: auto; font-weight: 500; font-size: .85rem; color: var(--acento); }
+.nivel[open] > summary::after { content: "Cerrar"; }
+.nivel-pie { font-weight: 500; font-size: .85rem; color: var(--tinta-suave); }
+.nivel .cuerpo { padding: 0 18px 16px; }
+body.solo-esencial .nivel.ambar, body.solo-esencial .nivel.rojo { display: none; }
+
+.cuerpo > :first-child { margin-top: 0; }
+.cuerpo p, .cuerpo ul, .cuerpo ol { margin: 0 0 12px; }
+.cuerpo ul, .cuerpo ol { padding-left: 1.3em; }
+.cuerpo li { margin-bottom: 6px; }
+.cuerpo h3, .cuerpo h4 { margin: 18px 0 8px; }
+.cuerpo blockquote { margin: 0 0 12px; padding: 10px 14px; background: var(--acento-suave); border-radius: 8px; }
+.cuerpo blockquote p:last-child { margin-bottom: 0; }
+.cuerpo code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: .9em; background: var(--acento-suave); padding: 1px 5px; border-radius: 4px; }
+.tabla { overflow-x: auto; margin: 0 0 12px; }
+table { border-collapse: collapse; font-size: .92rem; font-variant-numeric: tabular-nums; min-width: 100%; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+th { font-family: var(--font-display); font-weight: 700; background: var(--acento-suave); }
+
+.seccion { display: grid; gap: 10px; }
+.formula {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .93rem;
+  background: var(--superficie); border: 1px solid var(--linea); border-left: 4px solid var(--acento);
+  border-radius: 8px; padding: 10px 14px; margin: 0 0 12px; overflow-x: auto; white-space: nowrap; line-height: 1.7;
+}
+.nivel .formula { background: var(--papel); }
+main > *, .nivel, .cuerpo, .panel, .seccion, .ejercicio, .ejercicios, .tabla, .solucion, .ejercicio > * { min-width: 0; max-width: 100%; }
+.ejercicios { display: grid; gap: 12px; }
+.ejercicio { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px 16px; display: grid; gap: 8px; }
+.ejercicio .cuerpo p:last-child { margin-bottom: 0; }
+.solucion > summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; color: var(--acento); padding: 4px 0; }
+.solucion[open] > summary { margin-bottom: 8px; }
+.solucion > .cuerpo { border-top: 1px dashed var(--linea); padding-top: 10px; }
+.seccion > h2 { font-size: 1.15rem; }
+.errores { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+
+.flujo { display: grid; gap: 0; }
+.paso { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.paso-q { background: var(--superficie); border: 2px solid var(--acento); border-radius: var(--radio); padding: 10px 14px; font-family: var(--font-display); font-weight: 700; }
+.paso-q small { display: block; font-family: var(--font-body); font-weight: 400; color: var(--tinta-suave); font-size: .9rem; margin-top: 2px; }
+.paso-no { margin-left: 22px; border-left: 3px solid var(--rojo); background: var(--rojo-fondo); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: .93rem; }
+.paso-no b { font-family: var(--font-display); color: var(--rojo); }
+.flecha { font-family: var(--font-display); font-weight: 700; color: var(--verde); padding: 4px 0 4px 18px; font-size: .9rem; }
+.paso-fin { background: var(--verde-fondo); border: 2px solid var(--verde); border-radius: var(--radio); padding: 10px 14px; font-family: var(--font-display); font-weight: 700; }
+.paso-fin small { display: block; font-family: var(--font-body); font-weight: 400; color: var(--tinta-suave); font-size: .9rem; }
+
+.test { display: grid; gap: 14px; }
+.pregunta { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px 16px; display: grid; gap: 10px; }
+.pregunta p { margin: 0; font-weight: 600; }
+.opciones { display: grid; gap: 8px; }
+.opcion {
+  text-align: left; font: inherit; font-size: .97rem; color: var(--tinta);
+  background: var(--papel); border: 1px solid var(--linea); border-radius: 8px; padding: 9px 12px; cursor: pointer;
+}
+.opcion:hover:not([disabled]) { border-color: var(--acento); }
+.opcion[disabled] { cursor: default; }
+.opcion.bien { background: var(--verde-fondo); border-color: var(--verde); }
+.opcion.mal { background: var(--rojo-fondo); border-color: var(--rojo); }
+.explica { font-size: .95rem; padding: 10px 12px; border-radius: 8px; background: var(--acento-suave); }
+.explica b { font-family: var(--font-display); }
+.marcador { font-family: var(--font-display); font-size: .95rem; }
+
+.pie-leccion { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.nav-lecciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.glosario-lista { display: grid; gap: 8px; margin: 0; }
+.glosario-lista div { background: var(--superficie); border: 1px solid var(--linea); border-radius: 8px; padding: 10px 14px; }
+.glosario-lista dt { font-family: var(--font-display); font-weight: 700; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.glosario-lista dd { margin: 4px 0 0; }
+.buscador { width: 100%; font: inherit; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); }
+.buscador-wrap { display: grid; gap: 6px; }
+.buscador-wrap label { font-family: var(--font-display); font-size: .9rem; }
+
+.fuentes { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: .93rem; }
+.aviso { font-size: .85rem; color: var(--tinta-suave); border-top: 1px solid var(--linea); padding-top: 14px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16.5px; }
+  h1 { font-size: 1.55rem; }
+  .tarjeta { grid-template-columns: 34px 1fr; }
+  .tarjeta .estado { grid-column: 2; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .opcion, a.tarjeta { transition: border-color .15s ease, background .15s ease; }
+}
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="cabecera-in">
+    <a class="marca" href="#inicio">Curso de inversión y macro</a>
+    <nav class="cab-nav" aria-label="Secciones">
+      <a href="#inicio">Índice</a>
+      <a href="#glosario">Glosario</a>
+      <label class="interruptor" for="modo-esencial"><input type="checkbox" id="modo-esencial"> Solo lo esencial</label>
+    </nav>
+  </div>
+</header>
+<main id="app" aria-live="polite"></main>
+
+<script>
+/* ---------- Temario completo (los bloques se van añadiendo con su archivo) ---------- */
+window.TEMARIO = [
+  { id: 0, titulo: "Antes de invertir", sub: "Inflación, interés compuesto, rentabilidad real, colchón, deudas, horizonte y perfil de riesgo", archivo: "bloques/b0.js" },
+  { id: 1, titulo: "Los activos", sub: "Acciones, bonos, fondos, ETFs, inmuebles, materias primas, oro, cripto y derivados", archivo: "bloques/b1.js" },
+  { id: 2, titulo: "Riesgo y rentabilidad", sub: "Qué es el riesgo, cómo medirlo, diversificación, correlación, Markowitz, CAPM, factores y gestión del riesgo", archivo: "bloques/b2.js" },
+  { id: 3, titulo: "Inversión indexada", sub: "Por qué funciona, costes, elegir gestores, índices, efectos sobre el mercado, construir la cartera, cuándo invertir, roboadvisors, comportamiento y críticas", archivo: "bloques/b3.js" },
+  { id: 4, titulo: "Analizar empresas", sub: "Por qué es difícil, cuenta de resultados, balance y deuda, flujo de caja, rentabilidad del capital, ventajas competitivas, múltiplos, DCF, asignación de capital y pequeñas compañías", archivo: "bloques/b4.js" },
+  { id: 5, titulo: "Macro para inversores", sub: "PIB y bolsa, inflación, BCE y Fed, tipos y valoraciones, ciclo, IA y productividad, deuda pública, divisas, activos por régimen y por qué no se puede predecir la macro", archivo: "bloques/b5.js" },
+  { id: 6, titulo: "Psicología del inversor", sub: "Sesgos, errores típicos y cuándo vender" },
+  { id: 7, titulo: "Los grandes inversores", sub: "Graham, Buffett, Fisher, Lynch, Bogle, Marks, Dalio, Greenblatt y el porqué de cada estrategia" },
+  { id: 8, titulo: "Práctica en España", sub: "Fiscalidad, traspasos, compensar pérdidas, modelos 720 y 721, brókeres y comisiones" },
+  { id: 9, titulo: "Mapa de decisiones", sub: "Tu situación, el entorno y la foto actual 2026–2031" },
+  { id: 10, titulo: "Tu filosofía", sub: "Reglas propias que conectan con tu consola de inversión" }
+];
+window.BLOQUES = {};
+window.CURSO = { registrar: function (b) { window.BLOQUES[b.id] = b; } };
+</script>
+<script src="bloques/b0.js"></script>
+<script src="bloques/b1.js"></script>
+<script src="bloques/b2.js"></script>
+<script src="bloques/b3.js"></script>
+<script src="bloques/b4.js"></script>
+<script src="bloques/b5.js"></script>
+<script>
+(function () {
+  "use strict";
+  var app = document.getElementById("app");
+
+  /* ---------- Almacenamiento local (comodidad de un solo navegador) ---------- */
+  var CLAVE = "curso-inversion-v1";
+  var estado = { leidas: {}, respuestas: {}, esencial: false };
+  try {
+    var guardado = JSON.parse(localStorage.getItem(CLAVE) || "null");
+    if (guardado && typeof guardado === "object") estado = Object.assign(estado, guardado);
+  } catch (e) {}
+  function guardar() { try { localStorage.setItem(CLAVE, JSON.stringify(estado)); } catch (e) {} }
+
+  /* ---------- Markdown mínimo ---------- */
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function inline(s) {
+    s = esc(s);
+    s = s.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<em>$2</em>");
+    s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+    return s;
+  }
+  function md(texto) {
+    if (!texto) return "";
+    var lineas = texto.replace(/\r/g, "").split("\n").map(function (l) { return l.replace(/^\s+/, ""); });
+    var html = "", i = 0;
+    while (i < lineas.length) {
+      var l = lineas[i];
+      if (!l.trim()) { i++; continue; }
+      var h = l.match(/^(#{2,4})\s+(.*)$/);
+      if (h) { var n = h[1].length + 1; html += "<h" + n + ">" + inline(h[2]) + "</h" + n + ">"; i++; continue; }
+      if (/^\|/.test(l)) {
+        var filas = [];
+        while (i < lineas.length && /^\|/.test(lineas[i])) { filas.push(lineas[i]); i++; }
+        var celdas = function (f) { return f.replace(/^\||\|$/g, "").split("|").map(function (c) { return c.trim(); }); };
+        var t = '<div class="tabla"><table><thead><tr>' + celdas(filas[0]).map(function (c) { return "<th>" + inline(c) + "</th>"; }).join("") + "</tr></thead><tbody>";
+        filas.slice(2).forEach(function (f) { t += "<tr>" + celdas(f).map(function (c) { return "<td>" + inline(c) + "</td>"; }).join("") + "</tr>"; });
+        html += t + "</tbody></table></div>";
+        continue;
+      }
+      if (/^\$\$/.test(l)) {
+        var fs = [];
+        while (i < lineas.length && /^\$\$/.test(lineas[i])) { fs.push(inline(lineas[i].replace(/^\$\$\s?/, ""))); i++; }
+        html += '<div class="formula" role="math">' + fs.join("<br>") + "</div>";
+        continue;
+      }
+      if (/^>\s?/.test(l)) {
+        var q = [];
+        while (i < lineas.length && /^>\s?/.test(lineas[i])) { q.push(lineas[i].replace(/^>\s?/, "")); i++; }
+        html += "<blockquote>" + md(q.join("\n")) + "</blockquote>";
+        continue;
+      }
+      if (/^- /.test(l)) {
+        var ul = "<ul>";
+        while (i < lineas.length && /^- /.test(lineas[i])) { ul += "<li>" + inline(lineas[i].slice(2)) + "</li>"; i++; }
+        html += ul + "</ul>"; continue;
+      }
+      if (/^\d+\. /.test(l)) {
+        var ol = "<ol>";
+        while (i < lineas.length && /^\d+\. /.test(lineas[i])) { ol += "<li>" + inline(lineas[i].replace(/^\d+\. /, "")) + "</li>"; i++; }
+        html += ol + "</ol>"; continue;
+      }
+      var p = [];
+      while (i < lineas.length && lineas[i].trim() && !/^(#{2,4}\s|\||>|- |\d+\. |\$\$)/.test(lineas[i])) { p.push(lineas[i].trim()); i++; }
+      html += "<p>" + inline(p.join(" ")) + "</p>";
+    }
+    return html;
+  }
+  window.mdCurso = md;
+
+  /* ---------- Utilidades ---------- */
+  function todasLecciones() {
+    var r = [];
+    TEMARIO.forEach(function (t) { var b = BLOQUES[t.id]; if (b) b.lecciones.forEach(function (l) { r.push(l); }); });
+    return r;
+  }
+  function progresoBloque(b) {
+    var hechas = b.lecciones.filter(function (l) { return estado.leidas[l.id]; }).length;
+    return { hechas: hechas, total: b.lecciones.length };
+  }
+  function barra(h, t) { var pct = t ? Math.round(100 * h / t) : 0; return '<div class="progreso" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><span style="width:' + pct + '%"></span></div>'; }
+
+  /* ---------- Vistas ---------- */
+  function vistaInicio() {
+    var todas = todasLecciones();
+    var hechas = todas.filter(function (l) { return estado.leidas[l.id]; }).length;
+    var h = '<section class="lectura"><h1>Curso de inversión y macroeconomía</h1>' +
+      '<p class="sub">De lo imprescindible a lo avanzado. Si solo lees los niveles esenciales de todos los bloques, tendrás una base completa y coherente.</p></section>';
+    h += '<section class="panel leyenda" aria-label="Cómo se lee cada lección">' +
+      '<h2>Cómo se lee cada lección</h2>' +
+      '<div><span class="chip verde">Esencial</span><span>Lo que hay que saber sí o sí, sin jerga. Unos 10 minutos.</span></div>' +
+      '<div><span class="chip ambar">Entenderlo</span><span>El porqué: mecanismos, datos reales y ejemplos con números.</span></div>' +
+      '<div><span class="chip rojo">A fondo</span><span>Teoría, modelos y debates académicos, explicados desde cero.</span></div>' +
+      '<p class="sub" style="margin:0">Cada lección incluye además un caso real, ejercicios resueltos, un test y lecturas para seguir. Activa «Solo lo esencial» arriba para ocultar los otros dos niveles.</p></section>';
+    h += '<section class="panel"><div class="pie-leccion"><h2>Tu progreso</h2><span class="marcador">' + hechas + ' de ' + todas.length + ' lecciones publicadas</span></div>' + barra(hechas, todas.length) + '</section>';
+    h += '<section class="seccion"><h2>Temario</h2><ol class="lista-bloques">';
+    TEMARIO.forEach(function (t) {
+      var b = BLOQUES[t.id];
+      if (b) {
+        var p = progresoBloque(b);
+        h += '<li><a class="tarjeta" href="#b' + t.id + '"><span class="num">' + t.id + '</span><span><h3>' + esc(t.titulo) + '</h3><p>' + esc(t.sub) + '</p></span><span class="estado' + (p.hechas === p.total ? ' hecho' : '') + '">' + p.hechas + '/' + p.total + '</span></a></li>';
+      } else {
+        h += '<li><div class="tarjeta bloqueada"><span class="num">' + t.id + '</span><span><h3>' + esc(t.titulo) + '</h3><p>' + esc(t.sub) + '</p></span><span class="estado">En preparación</span></div></li>';
+      }
+    });
+    h += '</ol></section>';
+    h += '<p class="aviso">Material educativo. No es asesoramiento financiero personalizado: las decisiones de inversión son tuyas.</p>';
+    return h;
+  }
+
+  function vistaBloque(b) {
+    var p = progresoBloque(b);
+    var h = '<nav class="migas" aria-label="Ruta"><a href="#inicio">Índice</a><span>›</span><span>Bloque ' + b.id + '</span></nav>';
+    h += '<section class="lectura"><h1>' + b.id + '. ' + esc(b.titulo) + '</h1><div class="cuerpo">' + md(b.intro) + '</div></section>';
+    if (b.foto) {
+      h += '<section class="panel foto"><div class="pie-leccion"><h2>' + esc(b.foto.titulo) + '</h2><span class="dato-fecha">Datos a ' + esc(b.foto.fecha) + '</span></div><div class="cuerpo">' + md(b.foto.md) + '</div></section>';
+    }
+    h += '<section class="seccion"><div class="pie-leccion"><h2>Lecciones</h2><span class="marcador">' + p.hechas + ' de ' + p.total + ' estudiadas</span></div>' + barra(p.hechas, p.total) + '<ol class="lista-lecciones">';
+    b.lecciones.forEach(function (l) {
+      var ok = estado.leidas[l.id];
+      h += '<li><a class="tarjeta" href="#' + l.id + '"><span class="num">' + l.num + '</span><span><h3>' + esc(l.titulo) + '</h3><p>' + esc(l.resumen) + '</p></span><span class="estado' + (ok ? ' hecho' : '') + '">' + (ok ? 'Estudiada' : 'Pendiente') + '</span></a></li>';
+    });
+    h += '</ol></section>';
+    h += '<section class="seccion"><h2>Fuentes de los datos de este bloque</h2><ul class="fuentes">' + b.fuentes.map(function (f) { return '<li><a href="' + f.u + '" target="_blank" rel="noopener">' + esc(f.t) + '</a>' + (f.n ? ' · ' + esc(f.n) : '') + '</li>'; }).join("") + '</ul></section>';
+    h += '<p class="aviso">Material educativo. No es asesoramiento financiero personalizado.</p>';
+    return h;
+  }
+
+  function vistaFlujo(f) {
+    var h = '<div class="flujo" role="list">';
+    f.pasos.forEach(function (s) {
+      h += '<div class="paso" role="listitem"><div class="paso-q">' + inline(s.q) + (s.d ? '<small>' + inline(s.d) + '</small>' : '') + '</div>' +
+        '<div class="paso-no"><b>Si no:</b> ' + inline(s.no) + '</div></div><div class="flecha">Sí ↓</div>';
+    });
+    h += '<div class="paso-fin">' + inline(f.fin.t) + '<small>' + inline(f.fin.d) + '</small></div></div>';
+    return h;
+  }
+
+  function vistaLeccion(b, idx) {
+    var l = b.lecciones[idx];
+    var ant = b.lecciones[idx - 1], sig = b.lecciones[idx + 1];
+    var h = '<nav class="migas" aria-label="Ruta"><a href="#inicio">Índice</a><span>›</span><a href="#b' + b.id + '">Bloque ' + b.id + '</a><span>›</span><span>Lección ' + l.num + '</span></nav>';
+    h += '<section class="lectura"><h1>' + l.num + ' · ' + esc(l.titulo) + '</h1></section>';
+    h += '<section class="resumen lectura"><h2>En tres líneas</h2><p>' + inline(l.resumen) + '</p></section>';
+    h += '<section class="nivel verde"><div class="nivel-cab"><span class="chip verde">Esencial</span><span class="nivel-pie">Lo imprescindible</span></div><div class="cuerpo lectura">' + md(l.esencial) + (l.flujo ? vistaFlujo(l.flujo) : '') + '</div></section>';
+    h += '<details class="nivel ambar"><summary><span class="chip ambar">Entenderlo</span><span class="nivel-pie">Mecanismos, datos y números</span></summary><div class="cuerpo lectura">' + md(l.entender) + '</div></details>';
+    h += '<details class="nivel rojo"><summary><span class="chip rojo">A fondo</span><span class="nivel-pie">Teoría, modelos y debates</span></summary><div class="cuerpo lectura">' + md(l.fondo) + '</div></details>';
+    h += '<section class="panel"><h2>Caso real · ' + esc(l.caso.titulo) + '</h2><div class="cuerpo lectura">' + md(l.caso.md) + '</div></section>';
+    if (l.ejercicios && l.ejercicios.length) {
+      h += '<section class="seccion"><h2>Ejercicios resueltos</h2><div class="ejercicios">' + l.ejercicios.map(function (ej, k) {
+        return '<article class="ejercicio"><h3>Ejercicio ' + (k + 1) + ' · ' + esc(ej.t) + '</h3><div class="cuerpo lectura">' + md(ej.p) + '</div>' +
+          '<details class="solucion"><summary>Ver la solución paso a paso</summary><div class="cuerpo lectura">' + md(ej.s) + '</div></details></article>';
+      }).join("") + '</div></section>';
+    }
+    h += '<section class="seccion lectura"><h2>Errores típicos</h2><ul class="errores">' + l.errores.map(function (e) { return '<li>' + inline(e) + '</li>'; }).join("") + '</ul></section>';
+    h += '<section class="seccion"><div class="pie-leccion"><h2>Ponte a prueba</h2><span class="marcador" id="marcador"></span></div><div class="test" id="test"></div></section>';
+    if (l.lecturas && l.lecturas.length) {
+      h += '<section class="seccion lectura"><h2>Para saber más</h2><ul class="fuentes">' + l.lecturas.map(function (r) {
+        return '<li><strong>' + inline(r.t) + '</strong> · ' + esc(r.a) + (r.n ? '. ' + inline(r.n) : '') + '</li>';
+      }).join("") + '</ul></section>';
+    }
+    h += '<section class="panel pie-leccion"><label class="interruptor" for="leida"><input type="checkbox" id="leida"' + (estado.leidas[l.id] ? ' checked' : '') + '> Marcar como estudiada</label>' +
+      '<div class="nav-lecciones">' + (ant ? '<a class="boton" href="#' + ant.id + '">← ' + ant.num + '</a>' : '<a class="boton" href="#b' + b.id + '">← Bloque</a>') +
+      (sig ? '<a class="boton primario" href="#' + sig.id + '">' + sig.num + ' →</a>' : '<a class="boton primario" href="#b' + b.id + '">Fin del bloque</a>') + '</div></section>';
+    return h;
+  }
+
+  function montarTest(l) {
+    var cont = document.getElementById("test");
+    var marcador = document.getElementById("marcador");
+    var resp = estado.respuestas[l.id] || {};
+    function pintarMarcador() {
+      var hechas = 0, bien = 0;
+      l.test.forEach(function (q, qi) { if (resp[qi] !== undefined) { hechas++; if (resp[qi] === q.c) bien++; } });
+      marcador.textContent = hechas ? bien + " de " + l.test.length + " correctas" : l.test.length + " preguntas";
+    }
+    l.test.forEach(function (q, qi) {
+      var caja = document.createElement("div");
+      caja.className = "pregunta";
+      caja.innerHTML = "<p>" + (qi + 1) + ". " + inline(q.p) + "</p>";
+      var ops = document.createElement("div"); ops.className = "opciones";
+      var exp = document.createElement("div"); exp.className = "explica"; exp.hidden = true;
+      var botones = q.o.map(function (txt, oi) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "opcion"; b.id = l.id + "-q" + qi + "-o" + oi;
+        b.innerHTML = inline(txt);
+        b.addEventListener("click", function () { responder(oi); });
+        ops.appendChild(b); return b;
+      });
+      function responder(oi) {
+        resp[qi] = oi; estado.respuestas[l.id] = resp; guardar();
+        botones.forEach(function (b, k) { b.disabled = true; if (k === q.c) b.classList.add("bien"); else if (k === oi) b.classList.add("mal"); });
+        exp.hidden = false;
+        exp.innerHTML = "<b>" + (oi === q.c ? "Correcto." : "No es esa.") + "</b> " + inline(q.e);
+        pintarMarcador();
+      }
+      caja.appendChild(ops); caja.appendChild(exp); cont.appendChild(caja);
+      if (resp[qi] !== undefined) responder(resp[qi]);
+    });
+    var rehacer = document.createElement("button");
+    rehacer.type = "button"; rehacer.className = "boton"; rehacer.textContent = "Repetir el test";
+    rehacer.addEventListener("click", function () { delete estado.respuestas[l.id]; guardar(); render(); });
+    cont.appendChild(rehacer);
+    pintarMarcador();
+  }
+
+  function vistaGlosario() {
+    var h = '<nav class="migas" aria-label="Ruta"><a href="#inicio">Índice</a><span>›</span><span>Glosario</span></nav>';
+    h += '<section class="lectura"><h1>Glosario</h1><p class="sub">Todos los términos del curso publicados hasta ahora, con el bloque donde se explican.</p></section>';
+    h += '<div class="buscador-wrap"><label for="buscar">Buscar un término</label><input class="buscador" id="buscar" type="search" placeholder="Por ejemplo: TAE, subyacente, avalancha"></div>';
+    h += '<dl class="glosario-lista" id="glosario-lista"></dl>';
+    return h;
+  }
+  function montarGlosario() {
+    var items = [];
+    TEMARIO.forEach(function (t) { var b = BLOQUES[t.id]; if (b) b.glosario.forEach(function (g) { items.push({ t: g.t, d: g.d, b: t.id }); }); });
+    items.sort(function (a, c) { return a.t.localeCompare(c.t, "es"); });
+    var lista = document.getElementById("glosario-lista"), input = document.getElementById("buscar");
+    function pintar() {
+      var f = input.value.trim().toLowerCase();
+      lista.innerHTML = items.filter(function (g) { return !f || (g.t + " " + g.d).toLowerCase().indexOf(f) >= 0; })
+        .map(function (g) { return '<div><dt>' + esc(g.t) + ' <a class="chip neutro" href="#b' + g.b + '">Bloque ' + g.b + '</a></dt><dd>' + inline(g.d) + '</dd></div>'; }).join("") || '<p>No hay ningún término con «' + esc(input.value) + '».</p>';
+    }
+    input.addEventListener("input", pintar); pintar();
+  }
+
+  /* ---------- Enrutado por hash ---------- */
+  function render() {
+    var hash = (location.hash || "#inicio").slice(1);
+    var m;
+    if (hash === "glosario") { app.innerHTML = vistaGlosario(); montarGlosario(); }
+    else if ((m = hash.match(/^b(\d+)$/)) && BLOQUES[m[1]]) { app.innerHTML = vistaBloque(BLOQUES[m[1]]); }
+    else if ((m = hash.match(/^b(\d+)-l(\d+)$/)) && BLOQUES[m[1]]) {
+      var b = BLOQUES[m[1]];
+      var idx = b.lecciones.findIndex(function (l) { return l.id === hash; });
+      if (idx < 0) { app.innerHTML = vistaBloque(b); }
+      else {
+        app.innerHTML = vistaLeccion(b, idx); montarTest(b.lecciones[idx]);
+        var chk = document.getElementById("leida");
+        chk.addEventListener("change", function () { if (chk.checked) estado.leidas[hash] = true; else delete estado.leidas[hash]; guardar(); });
+      }
+    }
+    else { app.innerHTML = vistaInicio(); }
+    window.scrollTo(0, 0);
+  }
+  var modo = document.getElementById("modo-esencial");
+  modo.checked = !!estado.esencial;
+  document.body.classList.toggle("solo-esencial", modo.checked);
+  modo.addEventListener("change", function () { estado.esencial = modo.checked; guardar(); document.body.classList.toggle("solo-esencial", modo.checked); });
+  window.addEventListener("hashchange", render);
+  render();
+})();
+</script>
+</body>
+</html>
